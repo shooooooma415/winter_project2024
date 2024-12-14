@@ -1,21 +1,19 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"net/http"
+	"github.com/labstack/echo/v4"
 )
 
-func getHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World")
-}
 
 func main(){
-	mux := http.NewServeMux()
+	e := echo.New()
 
-	mux.HandleFunc("GET /hello", getHandler)
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, Echo!")
+	})
 
-	fmt.Println("Server is running on http://localhost:8080")
-	if err := http.ListenAndServe(":8080", mux); err != nil {
-		fmt.Printf("Failed to start server: %v\n", err)
-	}
+	// サーバーを起動
+	e.Logger.Fatal(e.Start(":8080"))
 }
