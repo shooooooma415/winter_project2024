@@ -32,3 +32,18 @@ type InsertCompareImageResponse struct {
 type InsertFaceImageRequest struct {
 	Image string `json:"image"` // base64形式の文字列がはいる
 }
+
+// ランキングの要素の構造体
+type RankingComponent struct {
+	Position  int    `json:"position"`
+	UserID    int    `json:"user_id"`
+	UserName  string `json:"user_name"`
+	FaceImage string `json:"face_image"`
+}
+
+//結果のレスポンス
+type ResultRankingResponse struct {
+	CompareImage     string             `json:"compare_image"`
+	CompareImageName string             `json:"compare_image_name"`
+	Ranking          []RankingComponent `json:"ranking"`
+}
