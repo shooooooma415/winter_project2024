@@ -3,7 +3,14 @@ module winter_pj
 go 1.23.3
 
 require (
-	github.com/labstack/echo/v4 v4.13.2 // indirect
+	github.com/joho/godotenv v1.5.1
+	github.com/labstack/echo/v4 v4.13.2
+)
+
+require github.com/lib/pq v1.10.9
+
+require (
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
