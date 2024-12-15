@@ -1,5 +1,7 @@
 package model
 
+type UserId int
+
 //ユーザー作成のリクエスト
 type CreateUserRequest struct{
 	Name string `json:"name"`
@@ -7,10 +9,10 @@ type CreateUserRequest struct{
 
 //ユーザー作成のレスポンス
 type CreateUserResponse struct{
-	UserId int `json:"user_id"`
+	UserId UserId `json:"user_id"`
 }
 
 //ユーザー名変更のリクエスト，レスポンスはAuthResponse使う
-type RenewUserRequest struct{
+type UpdateUserRequest struct{
 	Name string `json:"name"`
 }
