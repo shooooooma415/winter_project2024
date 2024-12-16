@@ -25,6 +25,7 @@ func main() {
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
 	dbname := os.Getenv("DB_NAME")
+	run_port := os.Getenv("RUN_PORT")
 	
 	// PostgreSQLの接続文字列を作成
 	dsn := fmt.Sprintf(
@@ -48,5 +49,5 @@ func main() {
 	})
 
 	// サーバーを起動
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(run_port))
 }
