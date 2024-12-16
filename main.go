@@ -12,8 +12,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var db *sqlx.DB
-
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
@@ -33,8 +31,7 @@ func main() {
 		host, port, user, password, dbname,
 	)
 	// データベース接続を初期化
-	var err error
-	db, err = sqlx.Connect("postgres", dsn)
+	db,err := sqlx.Connect("postgres", dsn)
 	if err != nil {
 		log.Fatalf("Failed to connect to Supabase: %v", err)
 	}
