@@ -2,8 +2,8 @@ package repository
 
 //modelのPR通ったら型を変更する
 type UsersRepository interface{
-	CreateUser(name string) (int, error)
-	UpdateUser(user_id int, name string)
+	CreateUser(name string) (int error)
+	UpdateUser(user_id int, name string)(bool)
 }
 
 type UsersSQL struct{}
