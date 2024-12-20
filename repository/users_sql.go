@@ -6,15 +6,15 @@ import (
 	"winter_pj/model"
 )
 
-type UsersSQL struct {
+type UserRepositoryImpl struct {
 	DB *sql.DB
 }
 
-func NewUsersSQL(db *sql.DB) *UsersSQL {
-	return &UsersSQL{DB: db}
+func NewUsersSQL(db *sql.DB) *UserRepositoryImpl {
+	return &UserRepositoryImpl{DB: db}
 }
 
-func (q *UsersSQL) CreateUserQuery(name model.UserName) (*model.UserId, error) {
+func (q *UserRepositoryImpl) CreateUserQuery(name model.UserName) (*model.UserId, error) {
 	query := `
 		INSERT INTO users (name) 
 		VALUES ($1)
@@ -29,7 +29,7 @@ func (q *UsersSQL) CreateUserQuery(name model.UserName) (*model.UserId, error) {
 	return &userID, nil
 }
 
-func (q *UsersSQL) UpdateUserQuery(userID model.UserId, name model.UserName) (*model.User,error) {
+func (q *UserRepositoryImpl) UpdateUserQuery(userID model.UserId, name model.UserName) (*model.User,error) {
 	query := `
 		UPDATE users
 		SET name = $2
