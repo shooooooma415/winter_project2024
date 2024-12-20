@@ -2,4 +2,10 @@ package model
 
 type RoomId int
 
-type PassWord string
+type Password string
+
+type CreateRoom struct {
+	IsHuman  bool
+	Password Password
+	UserId   UserId
+}
