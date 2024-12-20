@@ -15,8 +15,13 @@ type ImageList struct {
 	Image     string  `json:"image"`
 }
 
-type InsertCompareImage struct{
+type InsertCompareImage struct {
 	ImageName string
-	Image string
-	IsHuman bool
+	Image     string
+	IsHuman   bool
+}
+
+type InsertFaceImage struct {
+	UserId UserId
+	Image  string
 }
