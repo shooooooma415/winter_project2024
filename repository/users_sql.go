@@ -8,7 +8,7 @@ import (
 
 type UsersRepository interface {
 	CreateUser(name string) (model.UserId, error)
-	UpdateUser(userId model.UserId, name string) (bool, error)
+	UpdateUser(userId model.UserId, name string) (error)
 }
 
 type UsersSQL struct {
