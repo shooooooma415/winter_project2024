@@ -2,4 +2,4 @@ package model
 
 type RoomId int
 
-type PassWord string
+type Password string
