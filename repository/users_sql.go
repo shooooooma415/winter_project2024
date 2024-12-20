@@ -8,7 +8,7 @@ import (
 
 type UsersRepository interface {
 	CreateUser(name string) (*model.UserId, error)
-	UpdateUser(userId model.UserId, name string) (*model.UserId, error)
+	UpdateUser(userId model.UserId, name model.UserName) (*model.User, error)
 }
 
 type UsersSQL struct {
@@ -34,7 +34,7 @@ func (q *UsersSQL) CreateUserQuery(name string) (*model.UserId, error) {
 	return &userID, nil
 }
 
-func (q *UsersSQL) UpdateUserQuery(userID model.UserId, name string) error {
+func (q *UsersSQL) UpdateUserQuery(userID model.UserId, name model.UserName) (*model.User,error) {
 	query := `
 		UPDATE users
 		SET name = $2
@@ -43,17 +43,19 @@ func (q *UsersSQL) UpdateUserQuery(userID model.UserId, name string) error {
 
 	result, err := q.DB.Exec(query, userID, name)
 	if err != nil {
-		return fmt.Errorf("failed to update user: %w", err)
+		return nil,fmt.Errorf("failed to update user: %w", err)
 	}
 
 	rowsAffected, err := result.RowsAffected()
 	if err != nil {
-		return fmt.Errorf("failed to check rows affected: %w", err)
+		return nil,fmt.Errorf("failed to check rows affected: %w", err)
 	}
 
 	if rowsAffected == 0 {
-		return fmt.Errorf("no rows were updated: user with ID %d not found", userID)
+		return nil,fmt.Errorf("no rows were updated: user with ID %d not found", userID)
 	}
-
-	return nil
+	return &model.User{
+		UserId:   userID,
+		UserName: name,
+	}, nil
 }
