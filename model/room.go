@@ -9,8 +9,3 @@ type CreateRoom struct {
 	Password Password
 	UserId   UserId
 }
-
-type JoinRoom struct {
-	Password Password
-	UserId   UserId
-}
