@@ -1,4 +1,4 @@
-package repository
+package game
 
 import (
 	"winter_pj/model"

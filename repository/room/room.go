@@ -1,4 +1,4 @@
-package repository
+package room
 
 import (
 	"winter_pj/model"
