@@ -7,7 +7,7 @@ import (
 )
 
 type UsersRepository interface {
-	CreateUser(name string) (model.UserId, error)
+	CreateUser(name string) (*model.UserId, error)
 	UpdateUser(userId model.UserId, name string) (error)
 }
 
