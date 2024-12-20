@@ -7,7 +7,7 @@ import (
 )
 
 type UsersRepository interface {
-	CreateUser(name string) (*model.UserId, error)
+	CreateUser(name model.UserName) (*model.UserId, error)
 	UpdateUser(userId model.UserId, name model.UserName) (*model.User, error)
 }
 
@@ -19,7 +19,7 @@ func NewUsersSQL(db *sql.DB) *UsersSQL {
 	return &UsersSQL{DB: db}
 }
 
-func (q *UsersSQL) CreateUserQuery(name string) (*model.UserId, error) {
+func (q *UsersSQL) CreateUserQuery(name model.UserName) (*model.UserId, error) {
 	query := `
 		INSERT INTO users (name) 
 		VALUES ($1)
