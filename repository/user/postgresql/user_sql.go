@@ -10,7 +10,7 @@ type UserRepositoryImpl struct {
 	DB *sql.DB
 }
 
-func NewUsersSQL(db *sql.DB) *UserRepositoryImpl {
+func NewUserRepository(db *sql.DB) *UserRepositoryImpl {
 	return &UserRepositoryImpl{DB: db}
 }
 
