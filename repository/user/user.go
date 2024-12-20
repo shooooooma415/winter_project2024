@@ -1,4 +1,4 @@
-package repository
+package user
 
 import (
 	"winter_pj/model"
