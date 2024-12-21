@@ -40,9 +40,10 @@ func setupDB(t *testing.T) *sql.DB {
 
 func TestCreateUserQuery(t *testing.T) {
 	testCases := []struct {
-		name model.UserName
+		name string
+		userName model.UserName
 	}{
-		{name: "hoge"},
+		{name:"Valid" ,userName: "hoge"},
 	}
 
 	db := setupDB(t)
@@ -50,13 +51,13 @@ func TestCreateUserQuery(t *testing.T) {
 	repository := NewUserRepository(db)
 
 	for _, tc := range testCases {
-		got, err := repository.CreateUserQuery(tc.name)
-		want := tc.name
+		got, err := repository.CreateUserQuery(tc.userName)
+		want := tc.userName
 
 		if err != nil {
 			t.Fatalf("CreateUserQuery() error = %v", err)
 		}
-		if got.UserName != tc.name {
+		if got.UserName != tc.userName {
 			t.Errorf("postgresql.CreateUserQuery() = %v, want %v", got.UserName, want)
 		}
 	}
@@ -64,10 +65,11 @@ func TestCreateUserQuery(t *testing.T) {
 
 func TestUpdateUserQuery(t *testing.T) {
 	testCases := []struct {
+		name string
 		initialName model.UserName
 		updateName  model.UserName
 	}{
-		{initialName: "hoge", updateName: "hogehoge"},
+		{name: "Valid", initialName: "hoge", updateName: "hogehoge"},
 	}
 
 	db := setupDB(t)
