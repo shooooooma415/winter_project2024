@@ -21,4 +21,8 @@ func TestCreateUserQuery(t *testing.T) {
 		}
 }
 
-func TestUpdateUserQuery(t *testing.T) {}
+func TestUpdateUserQuery(t *testing.T) {
+	testCases := []{
+		use model.User
+	}
+}
