@@ -5,6 +5,6 @@ import (
 )
 
 type UsersRepository interface {
-	CreateUser(name model.UserName) (*model.UserId, error)
-	UpdateUser(userId model.UserId, name model.UserName) (*model.User, error)
+	CreateUser(name model.UserName) (*model.User, error)
+	UpdateUser(user model.User) (*model.User, error)
 }
