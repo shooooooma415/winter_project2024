@@ -15,10 +15,10 @@ func TestCreateUserQuery(t *testing.T) {
 	for _, tc := range testCases {
 		repository := &UserRepositoryImpl{}
 		got,err := repository.CreateUserQuery(tc.name)
-		if err != nil{
-			t.Errorf("Error")
+		want := tc.name
+		if got.UserName != tc.name{
+			t.Errorf("postgresql.CreateUserQuery() = %v, want %v",got.UserName,tc.name)
 		}
-	}
 }
 
 func TestUpdateUserQuery(t *testing.T) {}
