@@ -39,7 +39,7 @@ func (q *UserRepositoryImpl) UpdateUserQuery(user model.User) (*model.User, erro
 	`
 
 	var updatedUser model.User
-	err := q.DB.QueryRow(query, user.UserId, user.UserName).Scan(&updatedUser.UserId, &updatedUser.UserName)
+	err := q.DB.QueryRow(query, user.UserId, user.UserName).Scan(&updatedUser.UserName, &updatedUser.UserId)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, fmt.Errorf("no rows were updated: user with ID %d not found", user.UserId)
 	}
