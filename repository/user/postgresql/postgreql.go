@@ -2,6 +2,7 @@ package postgresql
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"winter_pj/model"
 )
@@ -39,12 +40,11 @@ func (q *UserRepositoryImpl) UpdateUserQuery(userID model.UserId, name model.Use
 
 	var updatedUser model.User
 	err := q.DB.QueryRow(query, userID, name).Scan(&updatedUser.UserId, &updatedUser.UserName)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, fmt.Errorf("no rows were updated: user with ID %d not found", userID)
+	}
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, fmt.Errorf("no rows were updated: user with ID %d not found", userID)
-		}
 		return nil, fmt.Errorf("failed to update user: %w", err)
 	}
-
 	return &updatedUser, nil
 }
