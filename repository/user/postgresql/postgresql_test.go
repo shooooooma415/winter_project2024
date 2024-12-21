@@ -44,6 +44,7 @@ func TestCreateUserQuery(t *testing.T) {
 		userName model.UserName
 	}{
 		{name:"Valid" ,userName: "hoge"},
+		{name:"Empty" ,userName: ""},
 	}
 
 	db := setupDB(t)
@@ -70,6 +71,7 @@ func TestUpdateUserQuery(t *testing.T) {
 		updateName  model.UserName
 	}{
 		{name: "Valid", initialName: "hoge", updateName: "hogehoge"},
+		{name: "Empty", initialName: "hogehoge", updateName: ""},
 	}
 
 	db := setupDB(t)
