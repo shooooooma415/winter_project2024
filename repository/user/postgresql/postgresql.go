@@ -15,19 +15,19 @@ func NewUserRepository(db *sql.DB) *UserRepositoryImpl {
 	return &UserRepositoryImpl{DB: db}
 }
 
-func (q *UserRepositoryImpl) CreateUserQuery(name model.UserName) (*model.UserId, error) {
+func (q *UserRepositoryImpl) CreateUserQuery(name model.UserName) (*model.User, error) {
 	query := `
 		INSERT INTO users (name) 
 		VALUES ($1)
-		RETURNING id
+		RETURNING id, name
 	`
 
-	var userID model.UserId
-	err := q.DB.QueryRow(query, name).Scan(&userID)
+	var user model.User
+	err := q.DB.QueryRow(query, name).Scan(&user.UserId, &user.UserName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create user: %w", err)
 	}
-	return &userID, nil
+	return &user, nil
 }
 
 func (q *UserRepositoryImpl) UpdateUserQuery(userID model.UserId, name model.UserName) (*model.User, error) {
