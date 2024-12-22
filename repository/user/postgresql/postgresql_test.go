@@ -18,24 +18,28 @@ func TestCreateUserQuery(t *testing.T) {
 		{name: "Empty", userName: ""},
 	}
 
-	db, err := setupDB.ConnectDB()
-	if err != nil {
-		t.Fatalf("Failed to connect to the database: %v", err)
-	}
-	defer db.Close()
-
-	repository := postgresql.NewUserRepository(db)
-
 	for _, tc := range testCases {
-		got, err := repository.CreateUserQuery(tc.userName)
-		want := tc.userName
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 
-		if err != nil {
-			t.Fatalf("CreateUserQuery() error = %v", err)
-		}
-		if got.UserName != tc.userName {
-			t.Errorf("postgresql.CreateUserQuery() = %v, want %v", got.UserName, want)
-		}
+			db, err := setupDB.ConnectDB()
+			if err != nil {
+				t.Fatalf("Failed to connect to the database: %v", err)
+			}
+			defer db.Close()
+
+			repository := postgresql.NewUserRepository(db)
+			got, err := repository.CreateUserQuery(tc.userName)
+			want := tc.userName
+
+			if err != nil {
+				t.Fatalf("CreateUserQuery() error = %v", err)
+			}
+			if got.UserName != tc.userName {
+				t.Errorf("postgresql.CreateUserQuery() = %v, want %v", got.UserName, want)
+			}
+		})
 	}
 }
 
@@ -48,32 +52,37 @@ func TestUpdateUserQuery(t *testing.T) {
 		{name: "Valid", userName: "hoge", wantName: "hogehoge"},
 	}
 
-	db, err := setupDB.ConnectDB()
-	if err != nil {
-		t.Fatalf("Failed to connect to the database: %v", err)
-	}
-
-	defer db.Close()
-	repository := postgresql.NewUserRepository(db)
-
 	for _, tc := range testCases {
-		user, err := repository.CreateUserQuery(tc.userName)
-		if err != nil {
-			t.Fatalf("CreateUserQuery() error = %v", err)
-		}
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 
-		updateUser := model.User{
-			UserId:   user.UserId,
-			UserName: tc.wantName,
-		}
-		got, err := repository.UpdateUserQuery(updateUser)
-		want := updateUser
+			db, err := setupDB.ConnectDB()
+			if err != nil {
+				t.Fatalf("Failed to connect to the database: %v", err)
+			}
 
-		if err != nil {
-			t.Fatalf("CreateUserQuery() error = %v", err)
-		}
-		if got.UserName != want.UserName {
-			t.Errorf("postgresql.UpdateUserQuery() = %v, want %v", got, want)
-		}
+			defer db.Close()
+			repository := postgresql.NewUserRepository(db)
+
+			user, err := repository.CreateUserQuery(tc.userName)
+			if err != nil {
+				t.Fatalf("CreateUserQuery() error = %v", err)
+			}
+
+			updateUser := model.User{
+				UserId:   user.UserId,
+				UserName: tc.wantName,
+			}
+			got, err := repository.UpdateUserQuery(updateUser)
+			want := updateUser
+
+			if err != nil {
+				t.Fatalf("CreateUserQuery() error = %v", err)
+			}
+			if got.UserName != want.UserName {
+				t.Errorf("postgresql.UpdateUserQuery() = %v, want %v", got, want)
+			}
+		})
 	}
 }
