@@ -41,9 +41,9 @@ func TestCreateUserQuery(t *testing.T) {
 
 func TestUpdateUserQuery(t *testing.T) {
 	testCases := []struct {
-		name        string
+		name     string
 		userName model.UserName
-		wantName  model.UserName
+		wantName model.UserName
 	}{
 		{name: "Valid", userName: "hoge", wantName: "hogehoge"},
 	}

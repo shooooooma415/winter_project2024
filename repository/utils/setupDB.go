@@ -22,7 +22,7 @@ func findEnvFile() (string, error) {
 		if _, err := os.Stat(envPath); err == nil {
 			return envPath, nil
 		}
-		
+
 		parentDir := filepath.Dir(rootDir)
 		if parentDir == rootDir {
 			break
