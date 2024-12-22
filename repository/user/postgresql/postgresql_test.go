@@ -1,4 +1,4 @@
-package postgresql
+package postgresql_test
 
 import (
 	"database/sql"
@@ -6,6 +6,7 @@ import (
 	"os"
 	"testing"
 	"winter_pj/model"
+	"winter_pj/repository/user/postgresql"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -40,16 +41,16 @@ func setupDB(t *testing.T) *sql.DB {
 
 func TestCreateUserQuery(t *testing.T) {
 	testCases := []struct {
-		name string
+		name     string
 		userName model.UserName
 	}{
-		{name:"Valid" ,userName: "hoge"},
-		{name:"Empty" ,userName: ""},
+		{name: "Valid", userName: "hoge"},
+		{name: "Empty", userName: ""},
 	}
 
 	db := setupDB(t)
 	defer db.Close()
-	repository := NewUserRepository(db)
+	repository := postgresql.NewUserRepository(db)
 
 	for _, tc := range testCases {
 		got, err := repository.CreateUserQuery(tc.userName)
@@ -66,7 +67,7 @@ func TestCreateUserQuery(t *testing.T) {
 
 func TestUpdateUserQuery(t *testing.T) {
 	testCases := []struct {
-		name string
+		name        string
 		initialName model.UserName
 		updateName  model.UserName
 	}{
@@ -76,7 +77,7 @@ func TestUpdateUserQuery(t *testing.T) {
 
 	db := setupDB(t)
 	defer db.Close()
-	repository := NewUserRepository(db)
+	repository := postgresql.NewUserRepository(db)
 
 	for _, tc := range testCases {
 		user, err := repository.CreateUserQuery(tc.initialName)
