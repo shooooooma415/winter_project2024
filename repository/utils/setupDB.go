@@ -2,16 +2,44 @@ package setupDB
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
+func findEnvFile() (string, error) {
+	rootDir, err := os.Getwd()
+	if err != nil {
+		return "", fmt.Errorf("failed to get working directory: %v", err)
+	}
+	for {
+		envPath := filepath.Join(rootDir, ".env")
+		if _, err := os.Stat(envPath); err == nil {
+			return envPath, nil
+		}
+		
+		parentDir := filepath.Dir(rootDir)
+		if parentDir == rootDir {
+			break
+		}
+		rootDir = parentDir
+	}
+
+	return "", errors.New(".env file not found")
+}
+
 func ConnectDB() (*sql.DB, error) {
-	if err := godotenv.Load("../../.env"); err != nil {
+	envPath, err := findEnvFile()
+	if err != nil {
+		return nil, fmt.Errorf("failed to locate .env file: %v", err)
+	}
+
+	if err := godotenv.Load(envPath); err != nil {
 		return nil, fmt.Errorf("error loading .env file: %v", err)
 	}
 
