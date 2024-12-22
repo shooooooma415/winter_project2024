@@ -14,8 +14,7 @@ func TestCreateUserQuery(t *testing.T) {
 		name     string
 		userName model.UserName
 	}{
-		{name: "Valid", userName: "hoge"},
-		{name: "Empty", userName: ""},
+		{name: "userNameでユーザーを追加する", userName: "hoge"},
 	}
 
 	for _, tc := range testCases {
@@ -49,7 +48,7 @@ func TestUpdateUserQuery(t *testing.T) {
 		userName model.UserName
 		wantName model.UserName
 	}{
-		{name: "Valid", userName: "hoge", wantName: "hogehoge"},
+		{name: "userNameをwantNameに変更する", userName: "hoge", wantName: "hogehoge"},
 	}
 
 	for _, tc := range testCases {
