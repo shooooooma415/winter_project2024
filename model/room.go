@@ -7,5 +7,12 @@ type RoomName string
 type CreateRoom struct {
 	IsHuman  bool
 	RoomName RoomName
-	UserId   UserId
+	AuthorId UserId
+}
+
+type Room struct {
+	IsHuman  bool
+	RoomName RoomName
+	AuthorId UserId
+	RoomId   RoomId
 }
