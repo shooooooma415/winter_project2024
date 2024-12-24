@@ -5,8 +5,8 @@ import (
 )
 
 type RoomsRepository interface {
-	CreateRoom(createRoom model.CreateRoom) (*model.RoomId, error)
-	JoinRoom(password model.Password, userId model.UserId) (*model.RoomId, error)
-	GetRoomId(roomId model.RoomId) (*model.Password, error)
+	CreateRoom(createRoom model.CreateRoom) (*model.Room, error)
+	JoinRoom(password model.RoomName, userId model.UserId) (*model.RoomId, error)
+	GetRoomId(roomId model.RoomId) (*model.RoomName, error)
 	DeleteRoom(roomId model.RoomId) error
 }
