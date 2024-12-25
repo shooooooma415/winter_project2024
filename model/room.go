@@ -10,7 +10,7 @@ type CreateRoom struct {
 	AuthorId UserId
 }
 
-type JoinRoom struct {
+type RoomMember struct {
 	RoomId RoomId
 	UserId UserId
 }
