@@ -37,7 +37,7 @@ func (q *RoomRepositoryImpl) CreateRoomQuery(createRoom model.CreateRoom) (*mode
 	return &room, nil
 }
 
-func (q *RoomRepositoryImpl) JoinRoomQuery(RoomMember model.RoomMember) (*model.RoomMember, error) {
+func (q *RoomRepositoryImpl) JoinRoomQuery(roomMember model.RoomMember) (*model.RoomMember, error) {
 	query := `
 		INSERT INTO room_member (user_id)
 		VALUES $2
@@ -46,7 +46,7 @@ func (q *RoomRepositoryImpl) JoinRoomQuery(RoomMember model.RoomMember) (*model.
 	`
 
 	var room model.RoomMember
-	err := q.DB.QueryRow(query, RoomMember.RoomId, RoomMember.UserId).Scan(&room.RoomId,&room.UserId)
+	err := q.DB.QueryRow(query, roomMember.RoomId, roomMember.UserId).Scan(&room.RoomId,&room.UserId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to join room: %w", err)
 	}
@@ -64,4 +64,13 @@ func (q *RoomRepositoryImpl)DeleteRoomQuery(roomId model.RoomId)(error){
 		WHERE id = $1;
 	`
 	err := q.DB.QueryRow(query,roomId)
+}
+
+func (q *RoomRepositoryImpl)WithdrawRoomQuery(roomMember model.RoomMember)(*model.RoomMember,error){
+	query :=`
+		DELETE FROM room_member
+		WHERE room_id = $1
+		AND user_id = $2
+		RETURNING room_id
+	`
 }

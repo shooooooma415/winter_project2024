@@ -9,5 +9,5 @@ type RoomsRepository interface {
 	JoinRoom(roomMember model.RoomMember) (*model.RoomMember, error)
 	GetRoomId(roomId model.RoomId) (*model.RoomName, error)
 	DeleteRoom(roomId model.RoomId) error
-	WithdrawRoom(roomMember model.RoomMember) (*model.RoomId, error)
+	WithdrawRoom(roomMember model.RoomMember) (*model.RoomMember, error)
 }
