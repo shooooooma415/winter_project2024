@@ -36,3 +36,19 @@ func (q *RoomRepositoryImpl) CreateRoomQuery(createRoom model.CreateRoom) (*mode
 	}
 	return &room, nil
 }
+
+func (q *RoomRepositoryImpl) JoinRoomQuery(JoinRoom model.JoinRoom) (*model.JoinRoom, error) {
+	query := `
+		INSERT INTO room_member (user_id)
+		VALUES $2
+		WHERE room_id = $1
+		RETURNING room_id,user_id
+	`
+
+	var room model.JoinRoom
+	err := q.DB.QueryRow(query, JoinRoom.RoomId, JoinRoom.UserId).Scan(&room.RoomId,&room.UserId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to join room: %w", err)
+	}
+	return &room, nil
+}

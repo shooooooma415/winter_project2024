@@ -10,6 +10,11 @@ type CreateRoom struct {
 	AuthorId UserId
 }
 
+type JoinRoom struct {
+	RoomId RoomId
+	UserId UserId
+}
+
 type Room struct {
 	IsHuman  bool
 	RoomName RoomName
