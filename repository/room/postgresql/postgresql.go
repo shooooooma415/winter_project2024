@@ -46,14 +46,14 @@ func (q *RoomRepositoryImpl) JoinRoomQuery(roomMember model.RoomMember) (*model.
 	`
 
 	var room model.RoomMember
-	err := q.DB.QueryRow(query, roomMember.RoomId, roomMember.UserId).Scan(&room.RoomId,&room.UserId)
+	err := q.DB.QueryRow(query, roomMember.RoomId, roomMember.UserId).Scan(&room.RoomId, &room.UserId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to join room: %w", err)
 	}
 	return &room, nil
 }
 
-func (q *RoomRepositoryImpl)DeleteRoomQuery(roomId model.RoomId)(error){
+func (q *RoomRepositoryImpl) DeleteRoomQuery(roomId model.RoomId) error {
 	query := `
 		WITH deleted_users AS (
 			DELETE FROM room_member
@@ -63,14 +63,21 @@ func (q *RoomRepositoryImpl)DeleteRoomQuery(roomId model.RoomId)(error){
 		DELETE FROM rooms
 		WHERE id = $1;
 	`
-	err := q.DB.QueryRow(query,roomId)
+	err := q.DB.QueryRow(query, roomId)
 }
 
-func (q *RoomRepositoryImpl)WithdrawRoomQuery(roomMember model.RoomMember)(*model.RoomMember,error){
-	query :=`
+func (q *RoomRepositoryImpl) WithdrawRoomQuery(roomMember model.RoomMember) (*model.RoomMember, error) {
+	query := `
 		DELETE FROM room_member
 		WHERE room_id = $1
 		AND user_id = $2
 		RETURNING room_id
 	`
+
+	var room model.RoomMember
+	err := q.DB.QueryRow(query, roomMember.RoomId, roomMember.UserId).Scan(&room.RoomId, &room.UserId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to withdraw room: %w", err)
+	}
+	return &room, nil
 }
