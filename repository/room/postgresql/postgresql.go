@@ -53,6 +53,21 @@ func (q *RoomRepositoryImpl) JoinRoomQuery(roomMember model.RoomMember) (*model.
 	return &room, nil
 }
 
+func (q *RoomRepositoryImpl) GetAuthorIdQuery(roomId model.RoomId) (*model.UserId, *model.RoomId, error) {
+	query := `
+	SELECT author_id, id
+	WHERE id = $1
+	`
+
+	var authorId model.UserId
+	var returnRoomId model.RoomId
+	err := q.DB.QueryRow(query, roomId).Scan(authorId, returnRoomId)
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to delete room: %w", err)
+	}
+	return &authorId,&roomId,nil
+}
+
 func (q *RoomRepositoryImpl) DeleteRoomQuery(roomId model.RoomId) (*model.RoomId, error) {
 	query := `
 		DELETE FROM rooms
