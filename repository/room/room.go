@@ -4,7 +4,7 @@ import (
 	"winter_pj/model"
 )
 
-type RoomsRepository interface {
+type RoomRepository interface {
 	CreateRoom(createRoom model.CreateRoom) (*model.Room, error)
 	JoinRoom(roomMember model.RoomMember) (*model.RoomMember, error)
 	GetRoomName(roomId model.RoomId) (*model.RoomName, *model.RoomId, error)
