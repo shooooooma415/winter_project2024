@@ -55,13 +55,8 @@ func (q *RoomRepositoryImpl) JoinRoomQuery(roomMember model.RoomMember) (*model.
 
 func (q *RoomRepositoryImpl) DeleteRoomQuery(roomId model.RoomId) (*model.RoomId, error) {
 	query := `
-		WITH deleted_users AS (
-			DELETE FROM room_member
-			WHERE room_id = $1
-			RETURNING room_id
-		)
 		DELETE FROM rooms
-		WHERE id = $1;
+		WHERE room_id = $1
 	`
 
 	var returnRoomId model.RoomId
