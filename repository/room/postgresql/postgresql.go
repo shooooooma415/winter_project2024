@@ -75,14 +75,31 @@ func (q *RoomRepositoryImpl) DeleteRoomQuery(roomId model.RoomId) (*model.RoomId
 		RETURNING id
 	`
 
-	var returnRoomId model.RoomId
-	err := q.DB.QueryRow(query, roomId).Scan(returnRoomId)
+	var deleteRoomId model.RoomId
+	err := q.DB.QueryRow(query, roomId).Scan(deleteRoomId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to delete room: %w", err)
 	}
-	return &returnRoomId, nil
+	return &deleteRoomId, nil
 }
 
+func (q *RoomRepositoryImpl)DeleteRoomMemberTableQuery(roomId model.RoomId)(*model.RoomId,error){
+	query := `
+		DELETE FROM room_member
+		WHERE room_id = $1
+		RETURNING room_id
+	`
+
+	var deleteRoomId model.RoomId
+	err := q.DB.QueryRow(query, roomId).Scan(deleteRoomId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to delete room: %w", err)
+	}
+	return &deleteRoomId, nil
+}
+
+
+//このメソッドuser/postgresqlに書くべきな気もする
 func (q *RoomRepositoryImpl) WithdrawRoomQuery(roomMember model.RoomMember) (*model.RoomMember, error) {
 	query := `
 		DELETE FROM room_member
