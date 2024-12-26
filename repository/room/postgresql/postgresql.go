@@ -71,7 +71,8 @@ func (q *RoomRepositoryImpl) GetAuthorIdQuery(roomId model.RoomId) (*model.UserI
 func (q *RoomRepositoryImpl) DeleteRoomQuery(roomId model.RoomId) (*model.RoomId, error) {
 	query := `
 		DELETE FROM rooms
-		WHERE room_id = $1
+		WHERE id = $1
+		RETURNING id
 	`
 
 	var returnRoomId model.RoomId
